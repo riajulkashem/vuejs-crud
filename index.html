@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Vue Js CRUD</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="row">
+            <div class="col-md-4 offset-4" style="padding-top: 10%;">
+                <h3 class="text-center">Bazar List</h3>
+                <form @submit.prevent='addItem'>
+                    <input v-model="newItem" class="form-control">
+                </form> 
+                <hr>
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="(item, index) in items" key="index">
+                        <button class="btn btn-xs btn-danger mr-3" @click="remove(index)">
+                            <i class="fa fa-minus-square"></i>
+                        </button>
+                        {{ item.name }}  <input v-model="item.price" class="w-25 float-right">
+                    </li>
+                    <hr>
+                    <h4 class="ml-3">Total <span class="float-right mr-4">{{ total }}</span></h4>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                items:[
+                    {name: 'Rice', price: '40.50'},
+                    {name: 'Oil', price: '100.50'},
+                    {name: 'Cucamber', price: '60.50'},
+                ],
+                newItem: '',
+            },
+
+            methods: {
+                addItem(){
+                    this.items.push({
+                        name: this.newItem,
+                        price: 0.0
+                    })
+                }
+            },
+
+            computed: {
+                total(){
+                    var total = 0
+                    this.items.forEach(item => {
+                        total += parseFloat(item.price)
+                    });
+                    return total
+                },
+                remove(index){
+                    this.items.splice(index, 1)
+                }
+            }
+        })
+    </script>
+</body>
+</html>
